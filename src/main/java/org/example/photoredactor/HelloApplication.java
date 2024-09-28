@@ -15,6 +15,8 @@ public class HelloApplication extends Application {
         stage.setTitle("PhotoRedactor");
         stage.setScene(scene);
         stage.setMaximized(true);
+        stage.setMinWidth(500);
+        stage.setMinHeight(250);
         stage.show();
     }
 

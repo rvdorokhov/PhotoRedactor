@@ -36,15 +36,15 @@
     -fx-text-fill: black; /* Черный цвет текста */
     -fx-background-radius: 10; /* Закругленные края */
     -fx-border-radius: 10; /* Закругление границ */
-    -fx-border-color: transparent; /* Без границ по умолчанию */
-    -fx-padding: 1 3 1 3; /* Внутренние отступы */
-    -fx-font-size: 9px; /* Размер шрифта */
+    -fx-padding: 2 3 1 2; /* Внутренние отступы */
     -fx-alignment: center; /* Выравнивание текста по центру */
+    -fx-border-width: 2px; /* Толщина рамки при фокусе */
 }
 
 .text-field:focused {
     -fx-background-color: white; /* Белый цвет при фокусе */
     -fx-border-color: #1e90ff; /* Сине-голубая рамка при фокусе */
+    -fx-padding: 1 2 1 2; /* Внутренние отступы */
     -fx-border-width: 2px; /* Толщина рамки при фокусе */
 }
 

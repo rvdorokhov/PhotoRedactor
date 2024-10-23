@@ -44,6 +44,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -51,7 +52,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.photoredactor.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -94,15 +95,15 @@
     </MenuBar>
     <SplitPane dividerPositions="0.773820124666073" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <items>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane prefHeight="573.0" prefWidth="634.0">
                <content>
                   <VBox fillWidth="false">
                      <children>
                         <AnchorPane>
                            <children>
-                              <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                              <ImageView fx:id="imageView" fitWidth="700.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                  <image>
-                                    <Image url="@../../../../../../../../../../../Pictures/IMG_6374.jpg" />
+                                    <Image url="@IMG_6374.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -111,7 +112,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0" stylesheets="@view.css">
+            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="313.0" stylesheets="@view.css">
                <content>
                   <VBox alignment="CENTER">
                      <children>
@@ -129,7 +130,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="tempTextField" alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -144,7 +145,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="tempSlider" onMouseDragged="#tempSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
@@ -161,7 +162,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="ottTextField" alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -173,7 +174,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="ottSlider" min="-100.0" onMouseDragged="#ottSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
@@ -196,7 +197,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="expTextField" alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -208,7 +209,10 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="expSlider" min="-100.0" onMouseDragged="#expSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0">
+                                             <tooltip>
+                                                <Tooltip text="Изменяет яркость изображения. Чем ниже настройка - тем ниже яркость; чем выше настройка - тем выше яркость." />
+                                             </tooltip></Slider>
                                        </children>
                                        <HBox.margin>
                                           <Insets />
@@ -228,7 +232,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="contrTextField" alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -240,7 +244,10 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="contrSlider" min="-100.0" onMouseDragged="#contrSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0">
+                                             <tooltip>
+                                                <Tooltip text="Высокая контрастность делает изображение более выразительным, подчеркивая детали, тогда как низкая контрастность делает его более мягким и приглушенным." />
+                                             </tooltip></Slider>
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
@@ -255,7 +262,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="lightTextField" alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -264,7 +271,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="lightSlider" min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
@@ -284,7 +291,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="shadeTextField" alignment="BOTTOM_LEFT" prefHeight="17.6" prefWidth="30.0" text="100" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -296,7 +303,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="shadeSlider" min="-100.0" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
@@ -514,7 +521,7 @@
                         </VBox>
                         <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" text="Сброс" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                              <Button fx:id="buttonReset" mnemonicParsing="false" text="Сброс" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
                            </children>
                            <padding>
                               <Insets top="5.0" />

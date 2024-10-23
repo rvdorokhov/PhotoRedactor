@@ -10,6 +10,7 @@ module org.example.photoredactor {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires opencv;
 
     opens org.example.photoredactor to javafx.fxml;
     exports org.example.photoredactor;

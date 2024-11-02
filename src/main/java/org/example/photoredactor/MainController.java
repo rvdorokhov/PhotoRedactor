@@ -25,18 +25,21 @@ public class MainController {
     private LightsSetting lightsSetting = new LightsSetting();
     private ShadowsSetting shadowsSetting = new ShadowsSetting();
     private WhitesSetting whitesSetting = new WhitesSetting();
+    private BlacksSetting blacksSetting = new BlacksSetting();
 
-    private final Map<String, Settings> settingsMap = new HashMap<>(Map.of(
-            "#expSlider", exposeSetting,
-            "#expTextField", exposeSetting,
-            "#contrSlider", contrSetting,
-            "#contrTextField", contrSetting,
-            "#lightsSlider", lightsSetting,
-            "#lightsTextField", lightsSetting,
-            "#shadowsSlider", shadowsSetting,
-            "#shadowsTextField", shadowsSetting,
-            "#whitesSlider", whitesSetting,
-            "#whitesTextField", whitesSetting
+    private final Map<String, Settings> settingsMap = new HashMap<>(Map.ofEntries(
+            Map.entry("#expSlider", exposeSetting),
+            Map.entry("#expTextField", exposeSetting),
+            Map.entry("#contrSlider", contrSetting),
+            Map.entry("#contrTextField", contrSetting),
+            Map.entry("#lightsSlider", lightsSetting),
+            Map.entry("#lightsTextField", lightsSetting),
+            Map.entry("#shadowsSlider", shadowsSetting),
+            Map.entry("#shadowsTextField", shadowsSetting),
+            Map.entry("#whitesSlider", whitesSetting),
+            Map.entry("#whitesTextField", whitesSetting),
+            Map.entry("#blacksSlider",blacksSetting),
+            Map.entry("#blacksTextField", blacksSetting)
     ));
 
     @FXML private ImageView imageView;

@@ -8,10 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.example.photoredactor.settings.Settings;
-import org.example.photoredactor.tone.ContrSetting;
-import org.example.photoredactor.tone.ExposeSetting;
-import org.example.photoredactor.tone.LightsSetting;
-import org.example.photoredactor.tone.ShadowsSetting;
+import org.example.photoredactor.tone.*;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
@@ -27,6 +24,7 @@ public class MainController {
     private ContrSetting contrSetting = new ContrSetting();
     private LightsSetting lightsSetting = new LightsSetting();
     private ShadowsSetting shadowsSetting = new ShadowsSetting();
+    private WhitesSetting whitesSetting = new WhitesSetting();
 
     private final Map<String, Settings> settingsMap = new HashMap<>(Map.of(
             "#expSlider", exposeSetting,
@@ -36,7 +34,9 @@ public class MainController {
             "#lightsSlider", lightsSetting,
             "#lightsTextField", lightsSetting,
             "#shadowsSlider", shadowsSetting,
-            "#shadowsTextField", shadowsSetting
+            "#shadowsTextField", shadowsSetting,
+            "#whitesSlider", whitesSetting,
+            "#whitesTextField", whitesSetting
     ));
 
     @FXML private ImageView imageView;

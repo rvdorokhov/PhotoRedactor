@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.photoredactor.MainController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <SplitPane dividerPositions="0.773820124666073" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <items>
+            <ScrollPane prefHeight="573.0" prefWidth="634.0">
+               <content>
+                  <VBox fillWidth="false">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <ImageView fx:id="imageView" fitWidth="1130.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                 <image>
+                                    <Image url="@IMG_6374.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="313.0" stylesheets="@view.css">
+               <content>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <AnchorPane VBox.vgrow="NEVER">
+                                 <children>
+                                    <Label text="Баланс белого" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </AnchorPane>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="tempTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="tempSlider" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Температура" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="tintTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="tintSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Оттенок" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0" />
+                              <AnchorPane VBox.vgrow="NEVER">
+                                 <children>
+                                    <Label prefHeight="18.0" prefWidth="22.0" text="Тон" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </AnchorPane>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="expTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="expSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0">
+                                             <tooltip>
+                                                <Tooltip text="Изменяет яркость изображения. Чем ниже настройка - тем ниже яркость; чем выше настройка - тем выше яркость." />
+                                             </tooltip></Slider>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Экспозиция" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="contrTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="contrSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0">
+                                             <tooltip>
+                                                <Tooltip text="Высокая контрастность делает изображение более выразительным, подчеркивая детали, тогда как низкая контрастность делает его более мягким и приглушенным." />
+                                             </tooltip></Slider>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Контрастность" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0" />
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="lightsTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="lightsSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Светлые области" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="shadowsTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="shadowsSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Тени" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="whitesTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="whitesSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Белые" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="blacksTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="blacksSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Черные" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </HBox>
+                              <Separator prefWidth="200.0" />
+                              <AnchorPane>
+                                 <children>
+                                    <Label text="Присутствие" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </AnchorPane>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="textureTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="textureSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Текстура" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="clarityTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="claritySlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Четкость" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="dehazeTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="dehazeSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Удаление дымки" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0" />
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="vibrTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="vibrSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Красочность" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="saturTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="saturSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Насыщенность" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <AnchorPane>
+                           <children>
+                              <Button fx:id="buttonReset" mnemonicParsing="false" text="Сброс" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Button mnemonicParsing="false" text="Экспорт в JPG" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </content></ScrollPane>
+         </items>
+    </SplitPane>
+  </children>
+</VBox>

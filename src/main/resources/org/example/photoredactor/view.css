@@ -1,0 +1,53 @@
+.button {
+    -fx-background-color: #1e90ff; /* Сине-голубой цвет */
+    -fx-text-fill: white; /* Белый текст */
+    -fx-background-radius: 12; /* Закругленные края */
+    -fx-border-radius: 12; /* Радиус для границ */
+    -fx-padding: 5 5 5 5; /* Внутренние отступы */
+    -fx-font-size: 12px; /* Размер шрифта */
+}
+
+.button:hover {
+    -fx-background-color: #187bcd; /* Немного темнее фон при наведении */
+}
+
+.slider .track {
+    -fx-background-color: #d3d3d3; /* Цвет трека (линии ползунка) */
+    -fx-padding: 0.25em; /* Внутренние отступы трека */
+}
+
+.slider .thumb {
+    -fx-background-color: #1e90ff; /* Сине-голубой цвет "ползунка" */
+    -fx-background-radius: 50%; /* Закругленные края */
+    -fx-pref-width: 5px; /* Ширина ползунка */
+    -fx-pref-height: 5px; /* Высота ползунка */
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #187bcd; /* Темнее при наведении */
+}
+
+.slider .track:hover {
+    -fx-background-color: #c0c0c0; /* Немного темнее трек при наведении */
+}
+
+.text-field {
+    -fx-background-color: #d3d3d3; /* Светло-серый цвет фона */
+    -fx-text-fill: black; /* Черный цвет текста */
+    -fx-background-radius: 10; /* Закругленные края */
+    -fx-border-radius: 10; /* Закругление границ */
+    -fx-padding: 2 3 1 2; /* Внутренние отступы */
+    -fx-alignment: center; /* Выравнивание текста по центру */
+    -fx-border-width: 2px; /* Толщина рамки при фокусе */
+}
+
+.text-field:focused {
+    -fx-background-color: white; /* Белый цвет при фокусе */
+    -fx-border-color: #1e90ff; /* Сине-голубая рамка при фокусе */
+    -fx-padding: 1 2 1 2; /* Внутренние отступы */
+    -fx-border-width: 2px; /* Толщина рамки при фокусе */
+}
+
+.text-field:hover {
+    -fx-background-color: #c0c0c0; /* Немного темнее фон при наведении */
+}

@@ -7,6 +7,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.example.photoredactor.WB.TempSetting;
 import org.example.photoredactor.WB.TintSetting;
 import org.example.photoredactor.presence.SaturationSetting;
 import org.example.photoredactor.presence.VibranceSetting;
@@ -23,6 +24,7 @@ import static org.opencv.imgcodecs.Imgcodecs.imread;
 import static org.opencv.imgcodecs.Imgcodecs.imwrite;
 
 public class MainController {
+    private TempSetting tempSetting = new TempSetting();
     private TintSetting tintSetting = new TintSetting();
 
     private ExposeSetting exposeSetting = new ExposeSetting();
@@ -52,6 +54,8 @@ public class MainController {
             Map.entry("#saturTextField", saturSetting),
             Map.entry("#vibrSlider", vibrSetting),
             Map.entry("#vibrTextField", vibrSetting),
+            Map.entry("#tempSlider", tempSetting),
+            Map.entry("#tempTextField", tempSetting),
             Map.entry("#tintSlider", tintSetting),
             Map.entry("#tintTextField", tintSetting)
     ));

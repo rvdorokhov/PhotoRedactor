@@ -466,7 +466,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField fx:id="vibrTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="vibrTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -475,7 +475,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider fx:id="vibrSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="vibrSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>

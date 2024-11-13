@@ -7,6 +7,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.example.photoredactor.presence.SaturationSetting;
 import org.example.photoredactor.settings.Settings;
 import org.example.photoredactor.tone.*;
 import org.opencv.core.Core;
@@ -27,6 +28,8 @@ public class MainController {
     private WhitesSetting whitesSetting = new WhitesSetting();
     private BlacksSetting blacksSetting = new BlacksSetting();
 
+    private SaturationSetting saturSetting = new SaturationSetting();
+
     private final Map<String, Settings> settingsMap = new HashMap<>(Map.ofEntries(
             Map.entry("#expSlider", exposeSetting),
             Map.entry("#expTextField", exposeSetting),
@@ -38,8 +41,10 @@ public class MainController {
             Map.entry("#shadowsTextField", shadowsSetting),
             Map.entry("#whitesSlider", whitesSetting),
             Map.entry("#whitesTextField", whitesSetting),
-            Map.entry("#blacksSlider",blacksSetting),
-            Map.entry("#blacksTextField", blacksSetting)
+            Map.entry("#blacksSlider", blacksSetting),
+            Map.entry("#blacksTextField", blacksSetting),
+            Map.entry("#saturSlider", saturSetting),
+            Map.entry("#saturTextField", saturSetting)
     ));
 
     @FXML private ImageView imageView;

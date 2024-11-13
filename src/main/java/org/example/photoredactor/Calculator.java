@@ -23,4 +23,8 @@ public class Calculator {
         final Node source = (Node) event.getSource();
         return "#" + source.getId();
     }
+
+    public static double log(double base, double x) {
+        return Math.log(x) / Math.log(base);
+    }
 }

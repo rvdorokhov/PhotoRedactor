@@ -5,7 +5,7 @@ import org.opencv.core.Mat;
 public abstract class Settings {
     protected double coef;
 
-    // Превращает введенное число, находящееся в диапазоне от -100 до 100, в коэффициент от 1 до -1
+    // Превращает введенное число, находящееся в диапазоне от -100 до 100, в коэффициент от 0 до 2
     protected double convertToCoefficient(double value) {
         return 1 + value / 100;
     }

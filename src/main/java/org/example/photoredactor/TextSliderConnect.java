@@ -23,7 +23,7 @@ public class TextSliderConnect {
     }
 
     public static void sliderDrag(Event event, ImageView imageView) {
-        String sliderId = Calculator.getId(event);
+        String sliderId = Helper.getId(event);
         String textFieldId =
                 sliderId.substring(0, sliderId.length() - SLIDER_WORDS_COUNT) + "TextField";
 
@@ -37,7 +37,7 @@ public class TextSliderConnect {
     }
 
     public static void textFieldEdit(Event event, ImageView imageView) {
-        String textFieldId = Calculator.getId(event);
+        String textFieldId = Helper.getId(event);
         String sliderId =
                 textFieldId.substring(0, textFieldId.length() - TEXT_FIELD_WORDS_COUNT) + "Slider";
 

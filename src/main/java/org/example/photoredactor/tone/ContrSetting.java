@@ -14,7 +14,7 @@ public class ContrSetting extends SettingsWithSameCoefs {
         super.setCoef(coef);
     }
 
-    public double[] change(double[] rgb) {
+    public double[] changePixel(double[] rgb) {
         if (coef != 1) {
             changeRGB = (color, coef) ->
                     color + SOFT_COEF * (128 + coef * (color - 128) - color);
@@ -23,6 +23,6 @@ public class ContrSetting extends SettingsWithSameCoefs {
                     color;
         }
 
-        return super.change(rgb);
+        return super.changePixel(rgb);
     }
 }

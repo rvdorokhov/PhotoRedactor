@@ -9,8 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.example.photoredactor.WB.TempSetting;
 import org.example.photoredactor.WB.TintSetting;
-import org.example.photoredactor.presence.SaturationSetting;
-import org.example.photoredactor.presence.VibranceSetting;
+import org.example.photoredactor.presence.detail.BlurSetting;
+import org.example.photoredactor.presence.detail.ClaritySetting;
+import org.example.photoredactor.presence.color.SaturationSetting;
+import org.example.photoredactor.presence.color.VibranceSetting;
 import org.example.photoredactor.settings.Settings;
 import org.example.photoredactor.tone.*;
 import org.opencv.core.Core;
@@ -36,6 +38,8 @@ public class MainController {
 
     private SaturationSetting saturSetting = new SaturationSetting();
     private VibranceSetting vibrSetting = new VibranceSetting();
+    private ClaritySetting claritySetting = new ClaritySetting();
+    private BlurSetting blurSetting = new BlurSetting();
 
     private final Map<String, Settings> settingsMap = new HashMap<>(Map.ofEntries(
             Map.entry("#expSlider", exposeSetting),
@@ -57,7 +61,11 @@ public class MainController {
             Map.entry("#tempSlider", tempSetting),
             Map.entry("#tempTextField", tempSetting),
             Map.entry("#tintSlider", tintSetting),
-            Map.entry("#tintTextField", tintSetting)
+            Map.entry("#tintTextField", tintSetting),
+            Map.entry("#claritySlider", claritySetting),
+            Map.entry("#clarityTextField", claritySetting),
+            Map.entry("#blurSlider", blurSetting),
+            Map.entry("#blurTextField", blurSetting)
     ));
 
     @FXML private ImageView imageView;
@@ -79,7 +87,7 @@ public class MainController {
         double coef = 0;
         Settings setting = null;
 
-        String id = Calculator.getId(event);
+        String id = Helper.getId(event);
         final Node source = (Node) event.getSource();
         String sourceClass = source.getStyleClass().toString();
 
@@ -101,7 +109,7 @@ public class MainController {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Mat image = imread("src/main/resources/org/example/photoredactor/IMG_6374.jpg");
 
-        Calculator.changeImage(image, setting, coef);
+        Helper.changeImage(image, setting, coef);
 
         imwrite("src/main/resources/org/example/photoredactor/IMG_6374_new.jpg", image);
 

@@ -58,37 +58,10 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
             <MenuItem mnemonicParsing="false" text="Save" />
             <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
           </items>
         </Menu>
       </menus>
@@ -384,7 +357,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField fx:id="textureTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="clarityTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -396,12 +369,12 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider fx:id="textureSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="claritySlider" max="200.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
                                        <children>
-                                          <Label text="Текстура" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                          <Label text="Четкость" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -413,7 +386,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField fx:id="clarityTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="blurTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -422,12 +395,12 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
-                                          <Slider fx:id="claritySlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                          <Slider fx:id="blurSlider" max="200.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
                                        <children>
-                                          <Label text="Четкость" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                          <Label text="Размытие" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -529,7 +502,7 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" text="Экспорт в JPG" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                              <Button mnemonicParsing="false" text="Сохранить" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
                            </children>
                            <VBox.margin>
                               <Insets top="5.0" />

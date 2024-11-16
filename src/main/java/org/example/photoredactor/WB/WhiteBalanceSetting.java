@@ -1,8 +1,8 @@
 package org.example.photoredactor.WB;
 
-import org.example.photoredactor.settings.Settings;
+import org.example.photoredactor.settings.SettingsPixelEdit;
 
-public class WhiteBalanceSetting extends Settings {
+public class WhiteBalanceSetting extends SettingsPixelEdit {
     protected final double CANAL_RED_COEF;
     protected final double CANAL_GREEN_COEF;
     protected final double CANAL_BLUE_COEF;

@@ -1,11 +1,11 @@
-package org.example.photoredactor.presence;
+package org.example.photoredactor.presence.color;
 
 public class SaturationSetting extends LuminanceSetting {
     @Override
-    public double[] change(double[] rgb) {
+    public double[] changePixel(double[] rgb) {
         changeRGB = (color, coef) ->
                 greyComponent + coef * (color - greyComponent);
 
-        return super.change(rgb);
+        return super.changePixel(rgb);
     }
 }

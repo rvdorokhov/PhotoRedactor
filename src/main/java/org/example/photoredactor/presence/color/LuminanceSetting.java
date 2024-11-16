@@ -1,4 +1,4 @@
-package org.example.photoredactor.presence;
+package org.example.photoredactor.presence.color;
 
 import org.example.photoredactor.settings.SettingsWithSameCoefs;
 
@@ -10,9 +10,9 @@ public abstract class LuminanceSetting extends SettingsWithSameCoefs {
     protected final double COEF_B = 0.0722;
 
     @Override
-    public double[] change(double[] rgb) {
+    public double[] changePixel(double[] rgb) {
         greyComponent = COEF_R * rgb[INDEX_R] + COEF_G * rgb[INDEX_G] + COEF_B * rgb[INDEX_B];
 
-        return super.change(rgb);
+        return super.changePixel(rgb);
     }
 }

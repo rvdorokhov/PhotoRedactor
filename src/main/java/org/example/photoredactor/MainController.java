@@ -9,8 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.example.photoredactor.WB.TempSetting;
 import org.example.photoredactor.WB.TintSetting;
-import org.example.photoredactor.presence.detail.BlurSetting;
 import org.example.photoredactor.presence.detail.ClaritySetting;
+import org.example.photoredactor.presence.detail.BlurSetting;
+import org.example.photoredactor.presence.detail.SharpeningSetting;
 import org.example.photoredactor.presence.color.SaturationSetting;
 import org.example.photoredactor.presence.color.VibranceSetting;
 import org.example.photoredactor.settings.Settings;
@@ -38,8 +39,9 @@ public class MainController {
 
     private SaturationSetting saturSetting = new SaturationSetting();
     private VibranceSetting vibrSetting = new VibranceSetting();
-    private ClaritySetting claritySetting = new ClaritySetting();
+    private SharpeningSetting sharpeningSetting = new SharpeningSetting();
     private BlurSetting blurSetting = new BlurSetting();
+    private ClaritySetting claritySetting = new ClaritySetting();
 
     private final Map<String, Settings> settingsMap = new HashMap<>(Map.ofEntries(
             Map.entry("#expSlider", exposeSetting),
@@ -62,10 +64,12 @@ public class MainController {
             Map.entry("#tempTextField", tempSetting),
             Map.entry("#tintSlider", tintSetting),
             Map.entry("#tintTextField", tintSetting),
-            Map.entry("#claritySlider", claritySetting),
-            Map.entry("#clarityTextField", claritySetting),
+            Map.entry("#sharpeningSlider", sharpeningSetting),
+            Map.entry("#sharpeningTextField", sharpeningSetting),
             Map.entry("#blurSlider", blurSetting),
-            Map.entry("#blurTextField", blurSetting)
+            Map.entry("#blurTextField", blurSetting),
+            Map.entry("#claritySlider", claritySetting),
+            Map.entry("#clarityTextField", claritySetting)
     ));
 
     @FXML private ImageView imageView;

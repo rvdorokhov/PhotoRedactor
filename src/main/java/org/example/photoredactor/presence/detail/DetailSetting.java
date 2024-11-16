@@ -12,7 +12,6 @@ public abstract class DetailSetting extends SettingsImageEdit {
     public void changeMatImage(Mat image, double coef) {
         setCoef(coef);
 
-        // Создание ядра для повышения резкости
         kernel = new Mat(3, 3, CvType.CV_32F);
     }
 

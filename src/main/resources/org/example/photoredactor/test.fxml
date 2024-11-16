@@ -357,7 +357,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField fx:id="clarityTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="sharpeningTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -366,6 +366,32 @@
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="17.6">
+                                       <children>
+                                          <Slider fx:id="sharpeningSlider" max="200.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" onMouseReleased="#changeSetting" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label text="Зернистость" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <AnchorPane HBox.hgrow="NEVER">
+                                       <children>
+                                          <TextField fx:id="clarityTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                             <font>
+                                                <Font name="Arial" size="10.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
@@ -392,6 +418,9 @@
                                              </font>
                                           </TextField>
                                        </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="17.6">
                                        <children>
@@ -401,35 +430,6 @@
                                     <AnchorPane>
                                        <children>
                                           <Label text="Размытие" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="2.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <AnchorPane HBox.hgrow="NEVER">
-                                       <children>
-                                          <TextField fx:id="dehazeTextField" alignment="BOTTOM_LEFT" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
-                                             <font>
-                                                <Font name="Arial" size="10.0" />
-                                             </font>
-                                          </TextField>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </HBox.margin>
-                                    </AnchorPane>
-                                    <AnchorPane prefHeight="17.6">
-                                       <children>
-                                          <Slider fx:id="dehazeSlider" min="-100.0" onMouseClicked="#onSliderDrag" onMouseDragged="#onSliderDrag" prefHeight="17.6" AnchorPane.leftAnchor="5.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane>
-                                       <children>
-                                          <Label text="Удаление дымки" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>

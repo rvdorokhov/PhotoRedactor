@@ -8,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.example.photoredactor.WB.TempSetting;
 import org.example.photoredactor.WB.TintSetting;
@@ -23,6 +24,7 @@ import org.opencv.core.Mat;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.opencv.imgcodecs.Imgcodecs.imread;
@@ -74,12 +76,14 @@ public class MainController {
             Map.entry("#clarityTextField", claritySetting)
     ));
 
+    @FXML private ImageView imageView;
+    private String curImageFileName;
+    private String curImageEditCopy;
+    private String saveTo;
+
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
-
-    @FXML private ImageView imageView;
-    private String curImageFileName;
 
     private static String SLIDER_STYLE_CLASS = "slider";
     private static String TEXT_FIELD_STYLE_CLASS = "text-input text-field";
@@ -120,9 +124,9 @@ public class MainController {
         Mat curImage = imread(curImageFileName);
         Helper.changeImage(curImage, setting, coef);
 
-        imwrite("src/main/resources/org/example/photoredactor/test.jpg", curImage);
+        imwrite(curImageEditCopy, curImage);
 
-        File file = new File("src/main/resources/org/example/photoredactor/test.jpg");
+        File file = new File(curImageEditCopy);
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
     }
@@ -131,10 +135,26 @@ public class MainController {
     @FXML
     private void openFiles() {
         FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(imageView.getScene().getWindow());
-        Image img = new Image(file.toURI().toString());
-        curImageFileName = file.toString().replace('\\', '/');
+        List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
+        Image img = new Image(files.get(0).toURI().toString());
+        curImageFileName = Helper.fileToString(files.get(0));
+
+        curImageEditCopy = "src/main/resources/org/example/photoredactor/"
+                + Helper.getImgName(curImageFileName);
+
         imageView.setImage(img);
+    }
+
+    @FXML void saveFiles() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+
+        Scene scene = imageView.getScene();
+
+        File directory = directoryChooser.showDialog(scene.getWindow());
+        saveTo = Helper.fileToString(directory) + "/" + Helper.getImgName(curImageEditCopy);
+
+        Mat curImage = imread(curImageEditCopy);
+        imwrite(saveTo, curImage);
     }
 
     @FXML

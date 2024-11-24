@@ -502,7 +502,7 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" text="Сохранить" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                              <Button mnemonicParsing="false" onAction="#saveFiles" text="Сохранить" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
                            </children>
                            <VBox.margin>
                               <Insets top="5.0" />

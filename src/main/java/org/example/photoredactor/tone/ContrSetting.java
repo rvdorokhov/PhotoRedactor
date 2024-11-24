@@ -1,18 +1,11 @@
 package org.example.photoredactor.tone;
 
-import org.example.photoredactor.settings.SettingsWithSameCoefs;
+import org.example.photoredactor.settings.SettingWithSameCoefs;
 
-public class ContrSetting extends SettingsWithSameCoefs {
+public class ContrSetting extends SettingWithSameCoefs {
     // Отвечает за плавность перехода. Чем меньше значение, тем плавнее переход
     // Объяснить сложно, для понимания лучше поиграться с коэффициентом
     protected double SOFT_COEF = 0.25;
-
-    public void setCoef(double coef) {
-        // добавляем в конец, потому что специфика функции изменения пикселя
-        // не позволяет ее использовать как коэффициент
-        dequeAddLast(this);
-        super.setCoef(coef);
-    }
 
     public double[] changePixel(double[] rgb) {
         if (coef != 1) {

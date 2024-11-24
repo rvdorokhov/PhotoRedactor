@@ -3,14 +3,9 @@ package org.example.photoredactor.settings;
 
 import org.opencv.core.Mat;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.function.BiFunction;
 
-public abstract class SettingsPixelEdit extends Settings{
-    // дек вызовов - определяет, в каком порядке будут применяться внесенные настройки
-    protected static Deque<SettingsPixelEdit> dequeCalls = new ArrayDeque<>();
-
+public abstract class SettingPixelEdit extends Setting {
     protected BiFunction<Double, Double, Double> changeB;
     protected BiFunction<Double, Double, Double> changeR;
     protected BiFunction<Double, Double, Double> changeG;
@@ -19,18 +14,7 @@ public abstract class SettingsPixelEdit extends Settings{
     protected static int INDEX_R = 1;
     protected static int INDEX_G = 2;
 
-    protected double[] changePixel(double[] rgb) {
-        double[] newRGB = rgb.clone();
-        for (SettingsPixelEdit setting : dequeCalls) {
-            newRGB[INDEX_B] = setting.changeB(newRGB[INDEX_B]);
-            newRGB[INDEX_R] = setting.changeR(newRGB[INDEX_R]);
-            newRGB[INDEX_G] = setting.changeG(newRGB[INDEX_G]);
-        }
-
-        return newRGB;
-    }
-
-    public void changeImage(double[][][] rgbMatrix, double coef) {
+/*    public void changeImage(double[][][] rgbMatrix, double coef) {
         int rows = rgbMatrix.length;
         int cols = rgbMatrix[0].length;
         setCoef(coef);
@@ -42,11 +26,10 @@ public abstract class SettingsPixelEdit extends Settings{
             }
         }
     }
-
-    public void changeMatImage(Mat image, double coef) {
+ */
+    public void applySetting(Mat image) {
         int rows = image.rows();
         int cols = image.cols();
-        setCoef(coef);
 
         for (int y = 0; y < rows; ++y) {
             for (int x = 0; x < cols; ++x) {
@@ -56,20 +39,17 @@ public abstract class SettingsPixelEdit extends Settings{
         }
     }
 
-    protected static void dequeAddFirst(SettingsPixelEdit setting) {
-        if (!dequeCalls.contains(setting)) {
-            dequeCalls.addFirst(setting);
-        }
-    }
+    protected double[] changePixel(double[] rgb) {
+        double[] newRGB = rgb.clone();
 
-    protected static void dequeAddLast(SettingsPixelEdit setting) {
-        if (!dequeCalls.contains(setting)) {
-            dequeCalls.addLast(setting);
-        }
+        newRGB[INDEX_B] = changeB(newRGB[INDEX_B]);
+        newRGB[INDEX_R] = changeR(newRGB[INDEX_R]);
+        newRGB[INDEX_G] = changeG(newRGB[INDEX_G]);
+
+        return newRGB;
     }
 
     public void setCoef(double coef) {
-        dequeAddFirst(this);
         super.setCoef(coef);
     }
 

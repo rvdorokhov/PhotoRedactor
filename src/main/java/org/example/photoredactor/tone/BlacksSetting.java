@@ -1,8 +1,8 @@
 package org.example.photoredactor.tone;
 
-import org.example.photoredactor.settings.SettingsWithSameCoefs;
+import org.example.photoredactor.settings.SettingWithSameCoefs;
 
-public class BlacksSetting extends SettingsWithSameCoefs {
+public class BlacksSetting extends SettingWithSameCoefs {
     public BlacksSetting() {
         final double a = 0.7;
         final double b = 1.5;

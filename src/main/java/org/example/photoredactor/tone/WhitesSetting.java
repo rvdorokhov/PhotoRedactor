@@ -1,8 +1,8 @@
 package org.example.photoredactor.tone;
 
-import org.example.photoredactor.settings.SettingsWithSameCoefs;
+import org.example.photoredactor.settings.SettingWithSameCoefs;
 
-public class WhitesSetting extends SettingsWithSameCoefs {
+public class WhitesSetting extends SettingWithSameCoefs {
     public WhitesSetting() {
         // Рассчитывается как color * coef
         // Коэффициент высчитывается по формуле

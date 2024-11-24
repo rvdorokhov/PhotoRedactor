@@ -494,7 +494,7 @@
                         </VBox>
                         <AnchorPane>
                            <children>
-                              <Button fx:id="buttonReset" mnemonicParsing="false" text="Сброс" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                              <Button fx:id="buttonReset" mnemonicParsing="false" onAction="#resetSettings" text="Сброс" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
                            </children>
                            <padding>
                               <Insets top="5.0" />

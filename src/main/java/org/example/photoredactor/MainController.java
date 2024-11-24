@@ -3,6 +3,7 @@ package org.example.photoredactor;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -14,7 +15,7 @@ import org.example.photoredactor.presence.detail.BlurSetting;
 import org.example.photoredactor.presence.detail.SharpeningSetting;
 import org.example.photoredactor.presence.color.SaturationSetting;
 import org.example.photoredactor.presence.color.VibranceSetting;
-import org.example.photoredactor.settings.Settings;
+import org.example.photoredactor.settings.Setting;
 import org.example.photoredactor.tone.*;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -43,7 +44,7 @@ public class MainController {
     private BlurSetting blurSetting = new BlurSetting();
     private ClaritySetting claritySetting = new ClaritySetting();
 
-    private final Map<String, Settings> settingsMap = new HashMap<>(Map.ofEntries(
+    private final Map<String, Setting> settingsMap = new HashMap<>(Map.ofEntries(
             Map.entry("#expSlider", exposeSetting),
             Map.entry("#expTextField", exposeSetting),
             Map.entry("#contrSlider", contrSetting),
@@ -72,6 +73,10 @@ public class MainController {
             Map.entry("#clarityTextField", claritySetting)
     ));
 
+    static {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    }
+
     @FXML private ImageView imageView;
 
     private static String SLIDER_STYLE_CLASS = "slider";
@@ -89,7 +94,7 @@ public class MainController {
 
     @FXML void changeSetting(Event event) {
         double coef = 0;
-        Settings setting = null;
+        Setting setting = null;
 
         String id = Helper.getId(event);
         final Node source = (Node) event.getSource();
@@ -109,7 +114,7 @@ public class MainController {
     }
 
     @FXML
-    private void changeImage(Settings setting, double coef) {
+    private void changeImage(Setting setting, double coef) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Mat image = imread("src/main/resources/org/example/photoredactor/IMG_6374.jpg");
 
@@ -120,5 +125,26 @@ public class MainController {
         File file = new File("src/main/resources/org/example/photoredactor/IMG_6374_new.jpg");
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
+    }
+
+    @FXML
+    private void resetSettings() {
+        Setting.resetSettings();
+        changeImage(exposeSetting, 1);
+
+        Scene scene = imageView.getScene();
+        for (String id : settingsMap.keySet()) {
+            if (id.endsWith("Slider")) {
+                Slider slider = (Slider) scene.lookup(id);
+                slider.setValue(0);
+            } else if (id.endsWith("TextField")) {
+                TextField textField = (TextField) scene.lookup(id);
+                textField.setText("0");
+            }
+        }
+    }
+
+    public MainController() {
+        Setting.initSettings(settingsMap.values());
     }
 }

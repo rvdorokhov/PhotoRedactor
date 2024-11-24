@@ -4,9 +4,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 public class BlurSetting extends DetailSetting {
-    public void changeMatImage(Mat image, double newCoef) {
-        super.changeMatImage(image, newCoef);
-
+    public void applySetting(Mat image) {
         // При применении фильтра сверточное ядро влияет на интенсивности пикселей,
         // и если сумма всех элементов ядра не равна 1, изображение может становиться темнее или светлее.
         // Для сохранения исходной яркости сумма элементов ядра должна быть равна 1

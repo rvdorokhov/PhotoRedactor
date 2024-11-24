@@ -1,8 +1,8 @@
 package org.example.photoredactor.presence.color;
 
-import org.example.photoredactor.settings.SettingsWithSameCoefs;
+import org.example.photoredactor.settings.SettingWithSameCoefs;
 
-public abstract class LuminanceSetting extends SettingsWithSameCoefs {
+public abstract class LuminanceSetting extends SettingWithSameCoefs {
     protected double greyComponent;
 
     protected final double COEF_R = 0.2126;

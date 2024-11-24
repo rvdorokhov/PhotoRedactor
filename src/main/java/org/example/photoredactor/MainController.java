@@ -8,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import org.example.photoredactor.WB.TempSetting;
 import org.example.photoredactor.WB.TintSetting;
 import org.example.photoredactor.presence.detail.ClaritySetting;
@@ -78,6 +79,7 @@ public class MainController {
     }
 
     @FXML private ImageView imageView;
+    private String curImageFileName;
 
     private static String SLIDER_STYLE_CLASS = "slider";
     private static String TEXT_FIELD_STYLE_CLASS = "text-input text-field";
@@ -115,15 +117,23 @@ public class MainController {
 
     @FXML
     private void changeImage(Setting setting, double coef) {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        Mat image = imread("src/main/resources/org/example/photoredactor/IMG_6374.jpg");
+        Mat curImage = imread(curImageFileName);
+        Helper.changeImage(curImage, setting, coef);
 
-        Helper.changeImage(image, setting, coef);
+        imwrite("src/main/resources/org/example/photoredactor/test.jpg", curImage);
 
-        imwrite("src/main/resources/org/example/photoredactor/IMG_6374_new.jpg", image);
-
-        File file = new File("src/main/resources/org/example/photoredactor/IMG_6374_new.jpg");
+        File file = new File("src/main/resources/org/example/photoredactor/test.jpg");
         Image img = new Image(file.toURI().toString());
+        imageView.setImage(img);
+    }
+
+    // Пока не дружит с пробелами и русскими символами
+    @FXML
+    private void openFiles() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(imageView.getScene().getWindow());
+        Image img = new Image(file.toURI().toString());
+        curImageFileName = file.toString().replace('\\', '/');
         imageView.setImage(img);
     }
 

@@ -8,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.example.photoredactor.WB.TempSetting;
@@ -23,6 +24,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +83,9 @@ public class MainController {
     private String curImageEditCopy;
     private String saveTo;
 
+    private List<String> originalImagesList = new ArrayList<>();
+    private List<String> editingCopyImagesList = new ArrayList<>();
+
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
@@ -134,15 +139,31 @@ public class MainController {
     // Пока не дружит с пробелами и русскими символами
     @FXML
     private void openFiles() {
+        Scene scene = imageView.getScene();
+        HBox imagesList = (HBox) scene.lookup("#imagesList");
+
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
-        Image img = new Image(files.get(0).toURI().toString());
-        curImageFileName = Helper.fileToString(files.get(0));
 
-        curImageEditCopy = "src/main/resources/org/example/photoredactor/"
-                + Helper.getImgName(curImageFileName);
+        for (File file : files) {
+            Image img = new Image(file.toURI().toString());
+            ImageView imageView = new ImageView(img);
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(75);
+            imagesList.getChildren().add(imageView);
+
+            String curFileName = Helper.fileToString(file);
+            originalImagesList.add(curFileName);
+            editingCopyImagesList.add("src/main/resources/org/example/photoredactor/"
+                    + Helper.getImgName(curFileName));
+        }
+
+        Image img = new Image(files.getFirst().toURI().toString());
+        curImageFileName = originalImagesList.getFirst();
+        curImageEditCopy = editingCopyImagesList.getFirst();
 
         imageView.setImage(img);
+        imageView.setFitWidth(1030);
     }
 
     @FXML void saveFiles() {

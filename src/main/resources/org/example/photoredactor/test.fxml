@@ -74,18 +74,31 @@
                      <children>
                         <AnchorPane>
                            <children>
-                              <ImageView fx:id="imageView" fitWidth="1130.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                              <ImageView fx:id="imageView" fitWidth="500.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.866687011718795" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.799999999999955" AnchorPane.topAnchor="11.0">
                                  <image>
                                     <Image url="@IMG_6374.jpg" />
                                  </image>
                               </ImageView>
                            </children>
                         </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <ScrollPane>
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                                       <children>
+                                          <HBox fx:id="imagesList" prefHeight="75.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="5.0" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </VBox>
                </content>
             </ScrollPane>
-            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="313.0" stylesheets="@view.css">
+            <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="330.0" stylesheets="@view.css">
                <content>
                   <VBox alignment="CENTER">
                      <children>
@@ -509,6 +522,9 @@
                            </VBox.margin>
                         </AnchorPane>
                      </children>
+                     <padding>
+                        <Insets left="12.0" />
+                     </padding>
                   </VBox>
                </content></ScrollPane>
          </items>

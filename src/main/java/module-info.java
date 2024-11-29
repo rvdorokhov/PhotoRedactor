@@ -9,6 +9,7 @@ module org.example.photoredactor {
     requires org.kordamp.bootstrapfx.core;
     requires opencv;
     requires jdk.jfr;
+    requires java.logging;
 
     opens org.example.photoredactor to javafx.fxml;
     exports org.example.photoredactor;

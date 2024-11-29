@@ -515,7 +515,23 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Button mnemonicParsing="false" onAction="#saveFiles" text="Сохранить" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                              <Button mnemonicParsing="false" text="Применить ко всем" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#saveFile" text="Сохранить" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#saveFiles" text="Сохранить все" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
                            </children>
                            <VBox.margin>
                               <Insets top="5.0" />

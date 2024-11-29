@@ -24,15 +24,23 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 import static org.opencv.imgcodecs.Imgcodecs.imwrite;
 
 public class MainController {
+    //to-do подключить нормальный логгер
+    protected static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
+
     private TempSetting tempSetting = new TempSetting();
     private TintSetting tintSetting = new TintSetting();
 
@@ -93,13 +101,11 @@ public class MainController {
     private static String SLIDER_STYLE_CLASS = "slider";
     private static String TEXT_FIELD_STYLE_CLASS = "text-input text-field";
 
-    @FXML
-    private void onSliderDrag(Event event) {
+    @FXML private void onSliderDrag(Event event) {
         TextSliderConnect.sliderDrag(event, imageView);
     }
 
-    @FXML
-    private void onTextFieldEdit(Event event) {
+    @FXML private void onTextFieldEdit(Event event) {
         TextSliderConnect.textFieldEdit(event, imageView);
     }
 
@@ -124,8 +130,7 @@ public class MainController {
         changeImage(setting, coef);
     }
 
-    @FXML
-    private void changeImage(Setting setting, double coef) {
+    @FXML private void changeImage(Setting setting, double coef) {
         Mat curImage = imread(curImageFileName);
         Helper.changeImage(curImage, setting, coef);
 
@@ -137,8 +142,7 @@ public class MainController {
     }
 
     // Пока не дружит с пробелами и русскими символами
-    @FXML
-    private void openFiles() {
+    @FXML private void openFiles() throws IOException {
         Scene scene = imageView.getScene();
         HBox imagesList = (HBox) scene.lookup("#imagesList");
 
@@ -153,9 +157,13 @@ public class MainController {
             imagesList.getChildren().add(imageView);
 
             String curFileName = Helper.fileToString(file);
+            String copyFileName = "src/main/resources/org/example/photoredactor/"
+                    + Helper.getImgName(curFileName);
             originalImagesList.add(curFileName);
-            editingCopyImagesList.add("src/main/resources/org/example/photoredactor/"
-                    + Helper.getImgName(curFileName));
+            editingCopyImagesList.add(copyFileName);
+
+            Mat curImage = imread(curFileName); //to-do переписать под Files.copy()
+            imwrite(copyFileName, curImage);
         }
 
         Image img = new Image(files.getFirst().toURI().toString());
@@ -166,20 +174,26 @@ public class MainController {
         imageView.setFitWidth(1030);
     }
 
-    @FXML void saveFiles() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-
-        Scene scene = imageView.getScene();
-
-        File directory = directoryChooser.showDialog(scene.getWindow());
-        saveTo = Helper.fileToString(directory) + "/" + Helper.getImgName(curImageEditCopy);
-
-        Mat curImage = imread(curImageEditCopy);
-        imwrite(saveTo, curImage);
+    @FXML void saveFile() {
+        saveFilesToDirectory(List.of(curImageEditCopy));
     }
 
-    @FXML
-    private void resetSettings() {
+    @FXML void saveFiles() {
+        saveFilesToDirectory(editingCopyImagesList);
+    }
+
+    @FXML void saveFilesToDirectory(List<String> files) {
+        File directory = getDirectory();
+
+        for (String fileName : files) {
+            String saveTo = Helper.fileToString(directory)
+                    + "/" + Helper.getImgName(fileName);
+            Mat curImage = imread(fileName);
+            imwrite(saveTo, curImage);
+        }
+    }
+
+    @FXML private void resetSettings() {
         Setting.resetSettings();
         changeImage(exposeSetting, 1);
 
@@ -193,6 +207,12 @@ public class MainController {
                 textField.setText("0");
             }
         }
+    }
+
+    private File getDirectory() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        Scene scene = imageView.getScene();
+        return directoryChooser.showDialog(scene.getWindow());
     }
 
     public MainController() {

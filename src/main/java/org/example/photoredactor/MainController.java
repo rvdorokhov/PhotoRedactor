@@ -8,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -89,10 +90,10 @@ public class MainController {
     @FXML private ImageView imageView;
     private String curImageFileName;
     private String curImageEditCopy;
-    private String saveTo;
 
-    private List<String> originalImagesList = new ArrayList<>();
-    private List<String> editingCopyImagesList = new ArrayList<>();
+    private List<String> originalImages = new ArrayList<>();
+    private List<String> editingCopyImages = new ArrayList<>();
+    private List<ImageView> imageViews = new ArrayList<>();
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -149,29 +150,35 @@ public class MainController {
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
 
-        for (File file : files) {
-            Image img = new Image(file.toURI().toString());
-            ImageView imageView = new ImageView(img);
-            imageView.setFitWidth(100);
-            imageView.setFitHeight(75);
-            imagesList.getChildren().add(imageView);
+        if (files != null) {
+            clear();
 
-            String curFileName = Helper.fileToString(file);
-            String copyFileName = "src/main/resources/org/example/photoredactor/"
-                    + Helper.getImgName(curFileName);
-            originalImagesList.add(curFileName);
-            editingCopyImagesList.add(copyFileName);
+            for (File file : files) {
+                Image img = new Image(file.toURI().toString());
+                ImageView imageView = new ImageView(img);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(75);
+                imageView.setOnMouseClicked(this::setCurImage);
+                imagesList.getChildren().add(imageView);
+                imageViews.add(imageView);
 
-            Mat curImage = imread(curFileName); //to-do переписать под Files.copy()
-            imwrite(copyFileName, curImage);
+                String curFileName = Helper.fileToString(file);
+                String copyFileName = "src/main/resources/org/example/photoredactor/"
+                        + Helper.getImgName(curFileName);
+                originalImages.add(curFileName);
+                editingCopyImages.add(copyFileName);
+
+                Mat curImage = imread(curFileName); //to-do переписать под Files.copy()
+                imwrite(copyFileName, curImage);
+            }
+
+            Image img = new Image(files.getFirst().toURI().toString());
+            curImageFileName = originalImages.getFirst();
+            curImageEditCopy = editingCopyImages.getFirst();
+
+            imageView.setImage(img);
+            imageView.setFitWidth(1030);
         }
-
-        Image img = new Image(files.getFirst().toURI().toString());
-        curImageFileName = originalImagesList.getFirst();
-        curImageEditCopy = editingCopyImagesList.getFirst();
-
-        imageView.setImage(img);
-        imageView.setFitWidth(1030);
     }
 
     @FXML void saveFile() {
@@ -179,7 +186,7 @@ public class MainController {
     }
 
     @FXML void saveFiles() {
-        saveFilesToDirectory(editingCopyImagesList);
+        saveFilesToDirectory(editingCopyImages);
     }
 
     @FXML void saveFilesToDirectory(List<String> files) {
@@ -209,6 +216,18 @@ public class MainController {
         }
     }
 
+    private void setCurImage(MouseEvent event) {
+        ImageView newImageView = (ImageView) event.getSource();
+        int ind = imageViews.indexOf(newImageView);
+
+        curImageFileName = originalImages.get(ind);
+        curImageEditCopy = editingCopyImages.get(ind);
+
+        File file = new File(curImageEditCopy);
+        Image img = new Image(file.toURI().toString());
+        imageView.setImage(img);
+    }
+
     private File getDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         Scene scene = imageView.getScene();
@@ -217,5 +236,15 @@ public class MainController {
 
     public MainController() {
         Setting.initSettings(settingsMap.values());
+    }
+
+    public void clear() {
+        originalImages.clear();
+        editingCopyImages.clear();
+        imageViews.clear();
+
+        Scene scene = imageView.getScene();
+        HBox imagesList = (HBox) scene.lookup("#imagesList");
+        imagesList.getChildren().clear();
     }
 }

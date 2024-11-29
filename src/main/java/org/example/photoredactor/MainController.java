@@ -128,18 +128,34 @@ public class MainController {
             coef = Double.parseDouble(textField.getText());
         }
 
-        changeImage(setting, coef);
+        changeImage(curImageFileName, curImageEditCopy, setting, coef);
     }
 
-    @FXML private void changeImage(Setting setting, double coef) {
-        Mat curImage = imread(curImageFileName);
+    @FXML void changeAllImages() {
+        changeAllImages(exposeSetting, exposeSetting.getCoef());
+    }
+
+    private void changeImage(String image, String imageEditCopy, Setting setting, double coef) {
+        Mat curImage = imread(image);
         Helper.changeImage(curImage, setting, coef);
 
-        imwrite(curImageEditCopy, curImage);
+        imwrite(imageEditCopy, curImage);
 
-        File file = new File(curImageEditCopy);
+        File file = new File(imageEditCopy);
         Image img = new Image(file.toURI().toString());
-        imageView.setImage(img);
+
+        int ind = originalImages.indexOf(image);
+        imageViews.get(ind).setImage(img);
+    }
+
+    private void changeAllImages(Setting setting, double coef) {
+        for (int ind = 0; ind < originalImages.size(); ++ind) {
+            changeImage(
+                    originalImages.get(ind),
+                    editingCopyImages.get(ind),
+                    setting, // монжо подставить любую другую настройку
+                    coef);
+        }
     }
 
     // Пока не дружит с пробелами и русскими символами
@@ -185,7 +201,7 @@ public class MainController {
         saveFilesToDirectory(List.of(curImageEditCopy));
     }
 
-    @FXML void saveFiles() {
+    @FXML void saveAllFiles() {
         saveFilesToDirectory(editingCopyImages);
     }
 
@@ -202,7 +218,8 @@ public class MainController {
 
     @FXML private void resetSettings() {
         Setting.resetSettings();
-        changeImage(exposeSetting, 1);
+
+        changeImage(curImageFileName, curImageEditCopy, exposeSetting, 1); // монжо подставить любую другую настройку вместо expose
 
         Scene scene = imageView.getScene();
         for (String id : settingsMap.keySet()) {

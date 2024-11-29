@@ -26,6 +26,10 @@ public abstract class Setting {
         return result;
     }
 
+    public double getCoef() {
+        return coef;
+    }
+
     protected void setCoef(double coef) {
         this.coef = convertToCoefficient(coef);
     }

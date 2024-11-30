@@ -14,11 +14,11 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.example.photoredactor.WB.TempSetting;
 import org.example.photoredactor.WB.TintSetting;
-import org.example.photoredactor.presence.detail.ClaritySetting;
-import org.example.photoredactor.presence.detail.BlurSetting;
-import org.example.photoredactor.presence.detail.SharpeningSetting;
 import org.example.photoredactor.presence.color.SaturationSetting;
 import org.example.photoredactor.presence.color.VibranceSetting;
+import org.example.photoredactor.presence.detail.BlurSetting;
+import org.example.photoredactor.presence.detail.ClaritySetting;
+import org.example.photoredactor.presence.detail.SharpeningSetting;
 import org.example.photoredactor.settings.Setting;
 import org.example.photoredactor.tone.*;
 import org.opencv.core.Core;
@@ -26,9 +26,7 @@ import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,58 +40,16 @@ public class MainController {
     //to-do подключить нормальный логгер
     protected static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
 
-    private TempSetting tempSetting = new TempSetting();
-    private TintSetting tintSetting = new TintSetting();
-
-    private ExposeSetting exposeSetting = new ExposeSetting();
-    private ContrSetting contrSetting = new ContrSetting();
-    private LightsSetting lightsSetting = new LightsSetting();
-    private ShadowsSetting shadowsSetting = new ShadowsSetting();
-    private WhitesSetting whitesSetting = new WhitesSetting();
-    private BlacksSetting blacksSetting = new BlacksSetting();
-
-    private SaturationSetting saturSetting = new SaturationSetting();
-    private VibranceSetting vibrSetting = new VibranceSetting();
-    private SharpeningSetting sharpeningSetting = new SharpeningSetting();
-    private BlurSetting blurSetting = new BlurSetting();
-    private ClaritySetting claritySetting = new ClaritySetting();
-
-    private final Map<String, Setting> settingsMap = new HashMap<>(Map.ofEntries(
-            Map.entry("#expSlider", exposeSetting),
-            Map.entry("#expTextField", exposeSetting),
-            Map.entry("#contrSlider", contrSetting),
-            Map.entry("#contrTextField", contrSetting),
-            Map.entry("#lightsSlider", lightsSetting),
-            Map.entry("#lightsTextField", lightsSetting),
-            Map.entry("#shadowsSlider", shadowsSetting),
-            Map.entry("#shadowsTextField", shadowsSetting),
-            Map.entry("#whitesSlider", whitesSetting),
-            Map.entry("#whitesTextField", whitesSetting),
-            Map.entry("#blacksSlider", blacksSetting),
-            Map.entry("#blacksTextField", blacksSetting),
-            Map.entry("#saturSlider", saturSetting),
-            Map.entry("#saturTextField", saturSetting),
-            Map.entry("#vibrSlider", vibrSetting),
-            Map.entry("#vibrTextField", vibrSetting),
-            Map.entry("#tempSlider", tempSetting),
-            Map.entry("#tempTextField", tempSetting),
-            Map.entry("#tintSlider", tintSetting),
-            Map.entry("#tintTextField", tintSetting),
-            Map.entry("#sharpeningSlider", sharpeningSetting),
-            Map.entry("#sharpeningTextField", sharpeningSetting),
-            Map.entry("#blurSlider", blurSetting),
-            Map.entry("#blurTextField", blurSetting),
-            Map.entry("#claritySlider", claritySetting),
-            Map.entry("#clarityTextField", claritySetting)
-    ));
-
     @FXML private ImageView imageView;
-    private String curImageFileName;
+/*    private String curImageFileName;
     private String curImageEditCopy;
 
     private List<String> originalImages = new ArrayList<>();
     private List<String> editingCopyImages = new ArrayList<>();
-    private List<ImageView> imageViews = new ArrayList<>();
+    private List<ImageView> imageViews = new ArrayList<>();*/
+
+    private List<EditingImage> editingImages = new ArrayList<>();
+    private EditingImage curImage;
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -112,7 +68,6 @@ public class MainController {
 
     @FXML void changeSetting(Event event) {
         double coef = 0;
-        Setting setting = null;
 
         String id = Helper.getId(event);
         final Node source = (Node) event.getSource();
@@ -120,51 +75,44 @@ public class MainController {
 
         if (sourceClass.equals(SLIDER_STYLE_CLASS)) {
             Slider slider = (Slider) event.getSource();
-            setting = settingsMap.get(id);
             coef = Math.round(slider.getValue());
         } else if (sourceClass.equals(TEXT_FIELD_STYLE_CLASS)) {
             TextField textField = (TextField) event.getSource();
-            setting = settingsMap.get(id);
             coef = Double.parseDouble(textField.getText());
         }
 
-        changeImage(curImageFileName, curImageEditCopy, setting, coef);
+        changeImage(curImage, id, coef);
     }
 
     @FXML void changeAllImages() {
-        changeAllImages(exposeSetting, exposeSetting.getCoef());
+        for (EditingImage image : editingImages) {
+            if (image != curImage) {
+                image.changeSettings(curImage.settingsMap);
+                image.changeImage();
+            }
+        }
     }
 
-    private void changeImage(String image, String imageEditCopy, Setting setting, double coef) {
-        Mat curImage = imread(image);
-        Helper.changeImage(curImage, setting, coef);
+    private void changeImage(EditingImage editingImage, String settingName, double coef) {
+        editingImage.changeImage(settingName, coef);
 
-        imwrite(imageEditCopy, curImage);
-
+        String imageEditCopy = editingImage.editingCopy;
         File file = new File(imageEditCopy);
         Image img = new Image(file.toURI().toString());
-
-        int ind = originalImages.indexOf(image);
-        imageViews.get(ind).setImage(img);
-    }
-
-    private void changeAllImages(Setting setting, double coef) {
-        for (int ind = 0; ind < originalImages.size(); ++ind) {
-            changeImage(
-                    originalImages.get(ind),
-                    editingCopyImages.get(ind),
-                    setting, // монжо подставить любую другую настройку
-                    coef);
-        }
+        imageView.setImage(img);
     }
 
     // Пока не дружит с пробелами и русскими символами
     @FXML private void openFiles() throws IOException {
-        Scene scene = imageView.getScene();
-        HBox imagesList = (HBox) scene.lookup("#imagesList");
-
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
+
+        addImagesToList(files);
+    }
+
+    public void addImagesToList(List<File> files) {
+        Scene scene = imageView.getScene();
+        HBox imagesList = (HBox) scene.lookup("#imagesList");
 
         if (files != null) {
             clear();
@@ -176,21 +124,14 @@ public class MainController {
                 imageView.setFitHeight(75);
                 imageView.setOnMouseClicked(this::setCurImage);
                 imagesList.getChildren().add(imageView);
-                imageViews.add(imageView);
 
                 String curFileName = Helper.fileToString(file);
-                String copyFileName = "src/main/resources/org/example/photoredactor/"
-                        + Helper.getImgName(curFileName);
-                originalImages.add(curFileName);
-                editingCopyImages.add(copyFileName);
-
-                Mat curImage = imread(curFileName); //to-do переписать под Files.copy()
-                imwrite(copyFileName, curImage);
+                EditingImage image = new EditingImage(curFileName, imageView);
+                editingImages.add(image);
             }
 
             Image img = new Image(files.getFirst().toURI().toString());
-            curImageFileName = originalImages.getFirst();
-            curImageEditCopy = editingCopyImages.getFirst();
+            curImage = editingImages.getFirst();
 
             imageView.setImage(img);
             imageView.setFitWidth(1030);
@@ -198,10 +139,13 @@ public class MainController {
     }
 
     @FXML void saveFile() {
-        saveFilesToDirectory(List.of(curImageEditCopy));
+        saveFilesToDirectory(List.of(curImage.editingCopy));
     }
 
     @FXML void saveAllFiles() {
+        List<String> editingCopyImages = new ArrayList<>();
+        editingImages.forEach(editingImage ->
+                editingCopyImages.add(editingImage.editingCopy));
         saveFilesToDirectory(editingCopyImages);
     }
 
@@ -217,12 +161,12 @@ public class MainController {
     }
 
     @FXML private void resetSettings() {
-        Setting.resetSettings();
+        curImage.resetSettings();
 
-        changeImage(curImageFileName, curImageEditCopy, exposeSetting, 1); // монжо подставить любую другую настройку вместо expose
+        changeImage(curImage, "#expSlider", 1); // можно подставить любую другую настройку вместо expose
 
         Scene scene = imageView.getScene();
-        for (String id : settingsMap.keySet()) {
+        for (String id : curImage.settingsMap.keySet()) {
             if (id.endsWith("Slider")) {
                 Slider slider = (Slider) scene.lookup(id);
                 slider.setValue(0);
@@ -235,12 +179,15 @@ public class MainController {
 
     private void setCurImage(MouseEvent event) {
         ImageView newImageView = (ImageView) event.getSource();
-        int ind = imageViews.indexOf(newImageView);
+        EditingImage editingImage = findEditingImage(newImageView);
 
-        curImageFileName = originalImages.get(ind);
-        curImageEditCopy = editingCopyImages.get(ind);
+        curImage = editingImage;
 
-        File file = new File(curImageEditCopy);
+        setImageToImageView(editingImage);
+    }
+
+    private void setImageToImageView(EditingImage editingImage) {
+        File file = new File(editingImage.editingCopy);
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
     }
@@ -251,17 +198,21 @@ public class MainController {
         return directoryChooser.showDialog(scene.getWindow());
     }
 
-    public MainController() {
-        Setting.initSettings(settingsMap.values());
-    }
-
     public void clear() {
-        originalImages.clear();
-        editingCopyImages.clear();
-        imageViews.clear();
+        editingImages.clear();
 
         Scene scene = imageView.getScene();
         HBox imagesList = (HBox) scene.lookup("#imagesList");
         imagesList.getChildren().clear();
+    }
+
+    public EditingImage findEditingImage(ImageView imageView) {
+        for (EditingImage image : editingImages) {
+            if (image.imageView == imageView) {
+                return image;
+            }
+        }
+
+        return null;
     }
 }

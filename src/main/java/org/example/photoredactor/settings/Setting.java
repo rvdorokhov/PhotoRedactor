@@ -30,8 +30,12 @@ public abstract class Setting {
         return coef;
     }
 
-    protected void setCoef(double coef) {
+    public void setCoef(double coef) {
         this.coef = convertToCoefficient(coef);
+    }
+
+    public void setCoefWithoutConvertation(double coef) {
+        this.coef = coef;
     }
 
     public void resetCoef() {
@@ -53,10 +57,12 @@ public abstract class Setting {
     }
 
     public static void initSettings(Setting... settings) {
+        dequeCalls.clear();
         dequeCalls.addAll(Arrays.asList(settings));
     }
 
     public static void initSettings(Collection<Setting> settings) {
+        dequeCalls.clear();
         dequeCalls.addAll(settings);
     }
 

@@ -1,6 +1,6 @@
 package org.example.photoredactor.presence.detail;
 
-import org.example.photoredactor.settings.SettingImageEdit;
+import org.example.photoredactor.settings.Setting;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -10,7 +10,7 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClaritySetting extends SettingImageEdit {
+public class ClaritySetting extends Setting {
     public void applySetting(Mat image) {
         // Переводим изображение в цветовое пространство LAB
         Mat labImage = new Mat();

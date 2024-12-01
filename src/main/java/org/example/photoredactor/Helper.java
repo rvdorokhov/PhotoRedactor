@@ -13,10 +13,6 @@ public class Helper {
         return "#" + source.getId();
     }
 
-    public static double log(double base, double x) {
-        return Math.log(x) / Math.log(base);
-    }
-
     public static String fileToString(File file) {
         return file.toString().replace('\\', '/');
     }

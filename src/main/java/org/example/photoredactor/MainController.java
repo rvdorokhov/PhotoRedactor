@@ -12,41 +12,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import org.example.photoredactor.WB.TempSetting;
-import org.example.photoredactor.WB.TintSetting;
-import org.example.photoredactor.presence.color.SaturationSetting;
-import org.example.photoredactor.presence.color.VibranceSetting;
-import org.example.photoredactor.presence.detail.BlurSetting;
-import org.example.photoredactor.presence.detail.ClaritySetting;
-import org.example.photoredactor.presence.detail.SharpeningSetting;
-import org.example.photoredactor.settings.Setting;
-import org.example.photoredactor.tone.*;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 import static org.opencv.imgcodecs.Imgcodecs.imwrite;
 
 public class MainController {
     //to-do подключить нормальный логгер
-    protected static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
+    // protected static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
 
     @FXML private ImageView imageView;
-/*    private String curImageFileName;
-    private String curImageEditCopy;
-
-    private List<String> originalImages = new ArrayList<>();
-    private List<String> editingCopyImages = new ArrayList<>();
-    private List<ImageView> imageViews = new ArrayList<>();*/
 
     private List<EditingImage> editingImages = new ArrayList<>();
     private EditingImage curImage;
@@ -57,15 +38,15 @@ public class MainController {
 
     private static String SLIDER_STYLE_CLASS = "slider";
     private static String TEXT_FIELD_STYLE_CLASS = "text-input text-field";
-
+//
     @FXML private void onSliderDrag(Event event) {
         TextSliderConnect.sliderDrag(event, imageView);
     }
-
+//
     @FXML private void onTextFieldEdit(Event event) {
         TextSliderConnect.textFieldEdit(event, imageView);
     }
-
+//
     @FXML void changeSetting(Event event) {
         double coef = 0;
 
@@ -83,7 +64,7 @@ public class MainController {
 
         changeImage(curImage, id, coef);
     }
-
+//
     @FXML void changeAllImages() {
         for (EditingImage image : editingImages) {
             if (image != curImage) {
@@ -92,7 +73,7 @@ public class MainController {
             }
         }
     }
-
+//
     private void changeImage(EditingImage editingImage, String settingName, double coef) {
         editingImage.changeImage(settingName, coef);
 
@@ -101,15 +82,7 @@ public class MainController {
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
     }
-
-    // Пока не дружит с пробелами и русскими символами
-    @FXML private void openFiles() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
-
-        addImagesToList(files);
-    }
-
+//
     public void addImagesToList(List<File> files) {
         Scene scene = imageView.getScene();
         HBox imagesList = (HBox) scene.lookup("#imagesList");
@@ -138,17 +111,25 @@ public class MainController {
         }
     }
 
+    // Пока не дружит с пробелами и русскими символами
+    @FXML private void openFiles() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
+
+        addImagesToList(files);
+    }
+//
     @FXML void saveFile() {
         saveFilesToDirectory(List.of(curImage.editingCopy));
     }
-
+//
     @FXML void saveAllFiles() {
         List<String> editingCopyImages = new ArrayList<>();
         editingImages.forEach(editingImage ->
                 editingCopyImages.add(editingImage.editingCopy));
         saveFilesToDirectory(editingCopyImages);
     }
-
+//
     @FXML void saveFilesToDirectory(List<String> files) {
         File directory = getDirectory();
 
@@ -159,7 +140,7 @@ public class MainController {
             imwrite(saveTo, curImage);
         }
     }
-
+//
     @FXML private void resetSettings() {
         curImage.resetSettings();
 
@@ -176,7 +157,7 @@ public class MainController {
             }
         }
     }
-
+//
     private void setCurImage(MouseEvent event) {
         ImageView newImageView = (ImageView) event.getSource();
         EditingImage editingImage = findEditingImage(newImageView);
@@ -185,19 +166,19 @@ public class MainController {
 
         setImageToImageView(editingImage);
     }
-
+//
     private void setImageToImageView(EditingImage editingImage) {
         File file = new File(editingImage.editingCopy);
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
     }
-
+//
     private File getDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         Scene scene = imageView.getScene();
         return directoryChooser.showDialog(scene.getWindow());
     }
-
+//
     public void clear() {
         editingImages.clear();
 
@@ -205,7 +186,7 @@ public class MainController {
         HBox imagesList = (HBox) scene.lookup("#imagesList");
         imagesList.getChildren().clear();
     }
-
+//
     public EditingImage findEditingImage(ImageView imageView) {
         for (EditingImage image : editingImages) {
             if (image.imageView == imageView) {

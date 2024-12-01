@@ -9,13 +9,12 @@ import org.example.photoredactor.presence.color.VibranceSetting;
 import org.example.photoredactor.presence.detail.BlurSetting;
 import org.example.photoredactor.presence.detail.ClaritySetting;
 import org.example.photoredactor.presence.detail.SharpeningSetting;
+import org.example.photoredactor.settings.EditSetting;
 import org.example.photoredactor.settings.Setting;
 import org.example.photoredactor.tone.*;
 import org.opencv.core.Mat;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +43,8 @@ public class EditingImage {
     public SharpeningSetting sharpeningSetting = new SharpeningSetting();
     public BlurSetting blurSetting = new BlurSetting();
     public ClaritySetting claritySetting = new ClaritySetting();
+
+    private EditSetting editSetting = new EditSetting();
 
     public final Map<String, Setting> settingsMap = new HashMap<>(Map.ofEntries(
             Map.entry("#expSlider", exposeSetting),
@@ -80,10 +81,8 @@ public class EditingImage {
             "/org/example/photoredactor/";
 
     public void changeImage() {
-        Setting.initSettings(settingsMap.values());
-
         Mat matImage = imread(original);
-        Setting.changeImage(matImage);
+        editSetting.changeImage(matImage);
         imwrite(editingCopy, matImage);
 
         File file = new File(editingCopy);
@@ -104,8 +103,7 @@ public class EditingImage {
     }
 
     public void resetSettings() {
-        Setting.initSettings(settingsMap.values());
-        Setting.resetSettings();
+        editSetting.resetSettings();
     }
 
     public EditingImage(String original, ImageView imageView) {
@@ -113,6 +111,8 @@ public class EditingImage {
         editingCopy = WORKING_DIRECTORY + Helper.getImgName(original);
         editingCopyRel = REL_WORKING_DIRECTORY + Helper.getImgName(original);
         this.imageView = imageView;
+
+        editSetting.initSettings(settingsMap.values());
 
         Mat image = imread(original); //to-do переписать под Files.copy()
         imwrite(editingCopy, image);

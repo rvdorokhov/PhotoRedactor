@@ -42,35 +42,5 @@ public abstract class Setting {
         coef = 1;
     }
 
-   // реализация для абстрактной rgb-матрицы, без привязки к классу Mat библиотеки OpenCV
-   // public abstract void changeImage(double[][][] rgbMatrix, double coef);
-
-    public static void changeImage(Mat image) {
-        for (Setting setting : dequeCalls) {
-            setting.applySetting(image);
-        }
-    }
-
-    public void changeImage(Mat image, double coef) {
-        setCoef(coef);
-        changeImage(image);
-    }
-
-    public static void initSettings(Setting... settings) {
-        dequeCalls.clear();
-        dequeCalls.addAll(Arrays.asList(settings));
-    }
-
-    public static void initSettings(Collection<Setting> settings) {
-        dequeCalls.clear();
-        dequeCalls.addAll(settings);
-    }
-
-    public static void resetSettings() {
-        for (Setting setting : dequeCalls) {
-            setting.resetCoef();
-        }
-    }
-
     protected abstract void applySetting(Mat image);
 }

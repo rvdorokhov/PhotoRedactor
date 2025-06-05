@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -38,16 +39,16 @@ public class MainController {
 
     private static String SLIDER_STYLE_CLASS = "slider";
     private static String TEXT_FIELD_STYLE_CLASS = "text-input text-field";
-//
-    @FXML private void onSliderDrag(Event event) {
+
+    @FXML public void onSliderDrag(Event event) {
         TextSliderConnect.sliderDrag(event, imageView);
     }
-//
-    @FXML private void onTextFieldEdit(Event event) {
+
+    @FXML public void onTextFieldEdit(Event event) {
         TextSliderConnect.textFieldEdit(event, imageView);
     }
-//
-    @FXML void changeSetting(Event event) {
+
+    @FXML public void changeSetting(Event event) {
         double coef = 0;
 
         String id = Helper.getId(event);
@@ -60,12 +61,15 @@ public class MainController {
         } else if (sourceClass.equals(TEXT_FIELD_STYLE_CLASS)) {
             TextField textField = (TextField) event.getSource();
             coef = Double.parseDouble(textField.getText());
+            if (!Helper.isValueCorrect(coef, event)) {
+                coef = 0;
+            }
         }
 
         changeImage(curImage, id, coef);
     }
-//
-    @FXML void changeAllImages() {
+
+    @FXML public void changeAllImages() {
         for (EditingImage image : editingImages) {
             if (image != curImage) {
                 image.changeSettings(curImage.settingsMap);
@@ -73,7 +77,7 @@ public class MainController {
             }
         }
     }
-//
+
     private void changeImage(EditingImage editingImage, String settingName, double coef) {
         editingImage.changeImage(settingName, coef);
 
@@ -82,8 +86,8 @@ public class MainController {
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
     }
-//
-    public void addImagesToList(List<File> files) {
+
+    private void addImagesToList(List<File> files) {
         Scene scene = imageView.getScene();
         HBox imagesList = (HBox) scene.lookup("#imagesList");
 
@@ -99,7 +103,19 @@ public class MainController {
                 imagesList.getChildren().add(imageView);
 
                 String curFileName = Helper.fileToString(file);
-                EditingImage image = new EditingImage(curFileName, imageView);
+
+                EditingImage image = null;
+                try {
+                    image = new EditingImage(curFileName, imageView);
+                } catch (Exception e) {
+                    clear();
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Ошибка");
+                    alert.setHeaderText("Неподдерживаемый формат файла");
+                    alert.setContentText("Выбран неподдерживаемый формат изображения.");
+                    alert.showAndWait();
+                }
+
                 editingImages.add(image);
             }
 
@@ -112,25 +128,25 @@ public class MainController {
     }
 
     // Пока не дружит с пробелами и русскими символами
-    @FXML private void openFiles() throws IOException {
+    @FXML public void openFiles() throws IOException {
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(imageView.getScene().getWindow());
 
         addImagesToList(files);
     }
-//
-    @FXML void saveFile() {
+
+    @FXML public void saveFile() {
         saveFilesToDirectory(List.of(curImage.editingCopy));
     }
-//
-    @FXML void saveAllFiles() {
+
+    @FXML public void saveAllFiles() {
         List<String> editingCopyImages = new ArrayList<>();
         editingImages.forEach(editingImage ->
                 editingCopyImages.add(editingImage.editingCopy));
         saveFilesToDirectory(editingCopyImages);
     }
-//
-    @FXML void saveFilesToDirectory(List<String> files) {
+
+    @FXML public void saveFilesToDirectory(List<String> files) {
         File directory = getDirectory();
 
         for (String fileName : files) {
@@ -140,8 +156,8 @@ public class MainController {
             imwrite(saveTo, curImage);
         }
     }
-//
-    @FXML private void resetSettings() {
+
+    @FXML public void resetSettings() {
         curImage.resetSettings();
 
         changeImage(curImage, "#expSlider", 1); // можно подставить любую другую настройку вместо expose
@@ -157,7 +173,7 @@ public class MainController {
             }
         }
     }
-//
+
     private void setCurImage(MouseEvent event) {
         ImageView newImageView = (ImageView) event.getSource();
         EditingImage editingImage = findEditingImage(newImageView);
@@ -165,29 +181,95 @@ public class MainController {
         curImage = editingImage;
 
         setImageToImageView(editingImage);
+
+        Scene scene = imageView.getScene();
+        TextField tempTextField = (TextField) scene.lookup("#tempTextField");
+        Slider tempSlider = (Slider) scene.lookup("#tempSlider");
+        tempTextField.setText(String.valueOf(Math.round(curImage.tempSetting.getCoef() * 100) - 100));
+        tempSlider.setValue(curImage.tempSetting.getCoef() * 100 - 100);
+
+        TextField tintTextField = (TextField) scene.lookup("#tintTextField");
+        Slider tintSlider = (Slider) scene.lookup("#tintSlider");
+        tintTextField.setText(String.valueOf(Math.round(curImage.tintSetting.getCoef() * 100) - 100));
+        tintSlider.setValue(curImage.tintSetting.getCoef() * 100 - 100);
+
+        TextField expTextField = (TextField) scene.lookup("#expTextField");
+        Slider expSlider = (Slider) scene.lookup("#expSlider");
+        expTextField.setText(String.valueOf(Math.round(curImage.exposeSetting.getCoef() * 100) - 100));
+        expSlider.setValue(curImage.exposeSetting.getCoef() * 100 - 100);
+
+        TextField contrTextField = (TextField) scene.lookup("#contrTextField");
+        Slider contrSlider = (Slider) scene.lookup("#contrSlider");
+        contrTextField.setText(String.valueOf(Math.round(curImage.contrSetting.getCoef() * 100) - 100));
+        contrSlider.setValue(curImage.contrSetting.getCoef() * 100 - 100);
+
+        TextField lightsTextField = (TextField) scene.lookup("#lightsTextField");
+        Slider lightsSlider = (Slider) scene.lookup("#lightsSlider");
+        lightsTextField.setText(String.valueOf(Math.round(curImage.lightsSetting.getCoef() * 100) - 100));
+        lightsSlider.setValue(curImage.lightsSetting.getCoef() * 100 - 100);
+
+        TextField shadowsTextField = (TextField) scene.lookup("#shadowsTextField");
+        Slider shadowsSlider = (Slider) scene.lookup("#shadowsSlider");
+        shadowsTextField.setText(String.valueOf(Math.round(curImage.shadowsSetting.getCoef() * 100) - 100));
+        shadowsSlider.setValue(curImage.shadowsSetting.getCoef() * 100 - 100);
+
+        TextField whitesTextField = (TextField) scene.lookup("#whitesTextField");
+        Slider whitesSlider = (Slider) scene.lookup("#whitesSlider");
+        whitesTextField.setText(String.valueOf(Math.round(curImage.whitesSetting.getCoef() * 100) - 100));
+        whitesSlider.setValue(curImage.whitesSetting.getCoef() * 100 - 100);
+
+        TextField blacksTextField = (TextField) scene.lookup("#blacksTextField");
+        Slider blacksSlider = (Slider) scene.lookup("#blacksSlider");
+        blacksTextField.setText(String.valueOf(Math.round(curImage.blacksSetting.getCoef() * 100) - 100));
+        blacksSlider.setValue(curImage.blacksSetting.getCoef() * 100 - 100);
+
+        TextField sharpeningTextField = (TextField) scene.lookup("#sharpeningTextField");
+        Slider sharpeningSlider = (Slider) scene.lookup("#sharpeningSlider");
+        sharpeningTextField.setText(String.valueOf(Math.round(curImage.sharpeningSetting.getCoef() * 100)));
+        sharpeningSlider.setValue(curImage.sharpeningSetting.getCoef() * 100);
+
+        TextField clarityTextField = (TextField) scene.lookup("#clarityTextField");
+        Slider claritySlider = (Slider) scene.lookup("#claritySlider");
+        clarityTextField.setText(String.valueOf(Math.round(curImage.claritySetting.getCoef() * 100) - 100));
+        claritySlider.setValue(curImage.claritySetting.getCoef() * 100 - 100);
+
+        TextField blurTextField = (TextField) scene.lookup("#blurTextField");
+        Slider blurSlider = (Slider) scene.lookup("#blurSlider");
+        blurTextField.setText(String.valueOf(Math.round(curImage.blurSetting.getCoef() * 100)));
+        blurSlider.setValue(curImage.blurSetting.getCoef() * 100);
+
+        TextField vibrTextField = (TextField) scene.lookup("#vibrTextField");
+        Slider vibrSlider = (Slider) scene.lookup("#vibrSlider");
+        vibrTextField.setText(String.valueOf(Math.round(curImage.vibrSetting.getCoef() * 100) - 100));
+        vibrSlider.setValue(curImage.vibrSetting.getCoef() * 100 - 100);
+
+        TextField saturTextField = (TextField) scene.lookup("#saturTextField");
+        Slider saturSlider = (Slider) scene.lookup("#saturSlider");
+        saturTextField.setText(String.valueOf(Math.round(curImage.saturSetting.getCoef() * 100) - 100));
+        saturSlider.setValue(curImage.saturSetting.getCoef() * 100 - 100);
     }
-//
+
     private void setImageToImageView(EditingImage editingImage) {
         File file = new File(editingImage.editingCopy);
         Image img = new Image(file.toURI().toString());
         imageView.setImage(img);
     }
-//
+
     private File getDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         Scene scene = imageView.getScene();
         return directoryChooser.showDialog(scene.getWindow());
     }
-//
-    public void clear() {
+
+    private void clear() {
         editingImages.clear();
 
         Scene scene = imageView.getScene();
         HBox imagesList = (HBox) scene.lookup("#imagesList");
         imagesList.getChildren().clear();
     }
-//
-    public EditingImage findEditingImage(ImageView imageView) {
+
+    private EditingImage findEditingImage(ImageView imageView) {
         for (EditingImage image : editingImages) {
             if (image.imageView == imageView) {
                 return image;

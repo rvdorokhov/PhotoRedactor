@@ -2,15 +2,7 @@ package org.example.photoredactor.settings;
 
 import org.opencv.core.Mat;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Deque;
-
 public abstract class Setting {
-    // дек вызовов - определяет, в каком порядке будут применяться внесенные настройки
-    protected static Deque<Setting> dequeCalls = new ArrayDeque<>();
-
     protected double coef = 1;
 
     // Превращает введенное число, находящееся в диапазоне от -100 до 100, в коэффициент от 0 до 2

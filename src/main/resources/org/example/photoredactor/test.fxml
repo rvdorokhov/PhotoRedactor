@@ -58,10 +58,10 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#openFiles" text="Open…" />
+            <MenuItem mnemonicParsing="false" onAction="#openFiles" text="Открыть" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Сохранить" />
+                  <MenuItem mnemonicParsing="false" text="Сохранить все" />
           </items>
         </Menu>
       </menus>
@@ -76,7 +76,7 @@
                            <children>
                               <ImageView fx:id="imageView" fitWidth="500.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.866687011718795" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.799999999999955" AnchorPane.topAnchor="11.0">
                                  <image>
-                                    <Image url="@IMG_6374.jpg" />
+                                    <Image url="@IMG_637.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -116,7 +116,7 @@
                                  <children>
                                     <AnchorPane HBox.hgrow="NEVER">
                                        <children>
-                                          <TextField fx:id="tempTextField" alignment="BOTTOM_LEFT" onKeyReleased="#changeSetting" onKeyTyped="#onTextFieldEdit" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
+                                          <TextField fx:id="tempTextField" alignment="BOTTOM_LEFT" onKeyReleased="#onTextFieldEdit" onKeyTyped="#changeSetting" prefHeight="17.6" prefWidth="30.0" text="0" AnchorPane.leftAnchor="10.0">
                                              <font>
                                                 <Font name="Arial" size="10.0" />
                                              </font>
@@ -532,6 +532,14 @@
                         <AnchorPane>
                            <children>
                               <Button mnemonicParsing="false" onAction="#saveAllFiles" text="Сохранить все" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#openFiles" text="Открыть" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" />
                            </children>
                            <VBox.margin>
                               <Insets top="5.0" />

@@ -3,6 +3,9 @@ package org.example.photoredactor.settings;
 
 import org.opencv.core.Mat;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 
 public abstract class SettingPixelEdit extends Setting {
@@ -31,12 +34,19 @@ public abstract class SettingPixelEdit extends Setting {
         int rows = image.rows();
         int cols = image.cols();
 
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
         for (int y = 0; y < rows; ++y) {
-            for (int x = 0; x < cols; ++x) {
-                double[] rgb = changePixel(image.get(y, x));
-                image.put(y, x, rgb);
-            }
+            final int Y = y;
+            futures.add(CompletableFuture.runAsync(() -> {
+                for (int x = 0; x < cols; ++x) {
+                    double[] rgb = changePixel(image.get(Y, x));
+                    image.put(Y, x, rgb);
+                }
+            }));
         }
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
     }
 
     protected double[] changePixel(double[] rgb) {
@@ -47,10 +57,6 @@ public abstract class SettingPixelEdit extends Setting {
         newRGB[INDEX_G] = changeG(newRGB[INDEX_G]);
 
         return newRGB;
-    }
-
-    public void setCoef(double coef) {
-        super.setCoef(coef);
     }
 
     protected double changeR(double r) {

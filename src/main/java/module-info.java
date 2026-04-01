@@ -10,6 +10,7 @@ module org.example.photoredactor {
     requires opencv;
     requires jdk.jfr;
     requires java.logging;
+    requires com.microsoft.onnxruntime;
 
     opens org.example.photoredactor to javafx.fxml;
     exports org.example.photoredactor;

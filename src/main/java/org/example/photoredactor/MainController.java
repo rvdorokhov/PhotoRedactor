@@ -33,10 +33,6 @@ public class MainController {
     private List<EditingImage> editingImages = new ArrayList<>();
     private EditingImage curImage;
 
-    static {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    }
-
     private static String SLIDER_STYLE_CLASS = "slider";
     private static String TEXT_FIELD_STYLE_CLASS = "text-input text-field";
 
@@ -107,6 +103,7 @@ public class MainController {
                 EditingImage image = null;
                 try {
                     image = new EditingImage(curFileName, imageView);
+                    editingImages.add(image);
                 } catch (Exception e) {
                     clear();
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -115,8 +112,6 @@ public class MainController {
                     alert.setContentText("Выбран неподдерживаемый формат изображения.");
                     alert.showAndWait();
                 }
-
-                editingImages.add(image);
             }
 
             Image img = new Image(files.getFirst().toURI().toString());
@@ -172,6 +167,104 @@ public class MainController {
                 textField.setText("0");
             }
         }
+    }
+
+    private String extractModelToTempFile() throws Exception {
+        try (var is = MainApplication.class.getResourceAsStream("/models/iq_multihd_4heads.onnx")) {
+            if (is == null) {
+                throw new RuntimeException("Модель не найдена в resources: /models/iq_multihd_4heads.onnx");
+            }
+
+            java.nio.file.Path tempFile = java.nio.file.Files.createTempFile("iq_multihd_4heads_", ".onnx");
+            java.nio.file.Files.copy(is, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            tempFile.toFile().deleteOnExit();
+
+            return tempFile.toAbsolutePath().toString();
+        }
+    }
+
+    @FXML
+    public void autoSelection() {
+        if (editingImages == null || editingImages.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Автоотбор", "Нет изображений", "Сначала загрузите изображения.");
+            return;
+        }
+
+        try {
+            // путь к ONNX-модели
+            String modelPath = extractModelToTempFile();
+
+            // пороги лучше взять те, что ты подобрал на валидации
+            AutoSelector selector = new AutoSelector(
+                    modelPath,
+                    0.5f, // blur
+                    0.5f, // under
+                    0.5f, // over
+                    0.5f  // night
+            );
+
+            List<EditingImage> approved = new ArrayList<>();
+            List<Node> approvedNodes = new ArrayList<>();
+
+            for (EditingImage img : editingImages) {
+                boolean ok = selector.approve(img.original);
+                if (ok) {
+                    approved.add(img);
+                    approvedNodes.add(img.imageView);
+                }
+            }
+
+            selector.close();
+
+            Scene scene = imageView.getScene();
+            HBox imagesList = (HBox) scene.lookup("#imagesList");
+
+            editingImages.clear();
+            editingImages.addAll(approved);
+
+            imagesList.getChildren().clear();
+            imagesList.getChildren().addAll(approvedNodes);
+
+            if (editingImages.isEmpty()) {
+                curImage = null;
+                imageView.setImage(null);
+
+                showAlert(
+                        Alert.AlertType.INFORMATION,
+                        "Автоотбор",
+                        "Готово",
+                        "Нейронная сеть не одобрила ни одного изображения."
+                );
+                return;
+            }
+
+            curImage = editingImages.getFirst();
+            setImageToImageView(curImage);
+
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Автоотбор",
+                    "Готово",
+                    "Оставлено изображений: " + editingImages.size()
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Ошибка",
+                    "Автоотбор не выполнен",
+                    e.getMessage()
+            );
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void setCurImage(MouseEvent event) {

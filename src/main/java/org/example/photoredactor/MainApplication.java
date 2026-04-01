@@ -4,10 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nu.pattern.OpenCV;
 
 import java.io.IOException;
 
 public class MainApplication extends Application {
+    @Override
+    public void init() {
+        OpenCV.loadLocally();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {

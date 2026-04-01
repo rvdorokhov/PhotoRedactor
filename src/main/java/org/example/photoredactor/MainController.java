@@ -248,7 +248,7 @@ public class MainController {
                     "Оставлено изображений: " + editingImages.size()
             );
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             showAlert(
                     Alert.AlertType.ERROR,

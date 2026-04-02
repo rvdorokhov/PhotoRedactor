@@ -194,7 +194,7 @@ public class MainController {
             // путь к ONNX-модели
             String modelPath = extractModelToTempFile();
 
-            // пороги лучше взять те, что ты подобрал на валидации
+            // пороги
             AutoSelector selector = new AutoSelector(
                     modelPath,
                     0.5f, // blur
@@ -248,7 +248,7 @@ public class MainController {
                     "Оставлено изображений: " + editingImages.size()
             );
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             e.printStackTrace();
             showAlert(
                     Alert.AlertType.ERROR,
